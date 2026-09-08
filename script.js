@@ -1,80 +1,17 @@
 
-// ============================================================
-// LAWRENXO WEBSITE JAVASCRIPT
-// ============================================================
-
-
-// MOBILE MENU
-
-const menuButton = document.getElementById("menuButton");
-
-const navMenu = document.getElementById("navMenu");
-
-
-menuButton.addEventListener("click", function() {
-
-    navMenu.classList.toggle("active");
-
+const menuBtn = document.querySelector('.menu-btn');
+const navLinks = document.querySelector('.nav-links');
+if(menuBtn){
+  menuBtn.addEventListener('click',()=>navLinks.classList.toggle('open'));
+}
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click',()=>navLinks?.classList.remove('open'));
 });
-
-
-// CLOSE MOBILE MENU AFTER CLICKING A LINK
-
-const navLinks = document.querySelectorAll("#navMenu a");
-
-
-navLinks.forEach(function(link) {
-
-    link.addEventListener("click", function() {
-
-        navMenu.classList.remove("active");
-
-    });
-
+const current = location.pathname.split('/').pop() || 'index.html';
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  if(a.getAttribute('href') === current) a.classList.add('active');
 });
-
-
-// CURRENT YEAR
-
-document.getElementById("year").textContent =
-    new Date().getFullYear();
-
-
-// SIMPLE SCROLL REVEAL
-
-const revealElements =
-    document.querySelectorAll(
-        ".service-card, .about-content, .contact-card"
-    );
-
-
-const observer = new IntersectionObserver(
-    function(entries) {
-
-        entries.forEach(function(entry) {
-
-            if (entry.isIntersecting) {
-
-                entry.target.style.opacity = "1";
-                entry.target.style.transform = "translateY(0)";
-
-            }
-
-        });
-
-    },
-    {
-        threshold: 0.1
-    }
-);
-
-
-revealElements.forEach(function(element) {
-
-    element.style.opacity = "0";
-    element.style.transform = "translateY(25px)";
-    element.style.transition = "opacity 0.7s ease, transform 0.7s ease";
-
-    observer.observe(element);
-
-});
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
